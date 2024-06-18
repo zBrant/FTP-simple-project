@@ -16,4 +16,15 @@ public class FormatterUtils {
       System.out.printf("[printTree][%d] Formatted string : %s \n", System.currentTimeMillis(), ftpFile.toFormattedString());
       System.out.println();
     }
+
+    public static void printHelper() {
+        System.out.println("""
+            Como Usar\s
+              java -jar ftp-simple-project <ftp server address>
+
+            Exemplo:
+              java -jar ftp-simple-project 192.168.0.2
+            """
+        );
+    }
 }

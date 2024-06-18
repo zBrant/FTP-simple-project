@@ -13,6 +13,15 @@ import java.util.Properties;
 public class EmailSenderImpl {
 
     public EmailSenderImpl(String to, String from, String host, String fileName) {
+        /*
+            exemplo de uso do emailSender:
+                EmailSenderImpl emailService = new EmailSenderImpl("raul.cfr112@gmail.com",
+                        "trabalhoredeswork@gmail.com",
+                        "smtp.gmail.com",
+                        "C:\\Users\\Raul\\Documents\\FTP-simple-project\\textTest.txt"
+                );
+         */
+
         Properties properties = System.getProperties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtps.auth", "true");
