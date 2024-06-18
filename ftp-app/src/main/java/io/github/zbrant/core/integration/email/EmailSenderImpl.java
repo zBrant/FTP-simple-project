@@ -11,50 +11,76 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class EmailSenderImpl {
+    private String to = "raul.cfr112@gmail.com";
+    private String from = "trabalhoredeswork@gmail.com";
+    private String host = "smtp.gmail.com";
+    private String fileName = "C:\\Users\\Raul\\Documents\\FTP-simple-project\\textTest.txt";
+    private Properties properties;
+    private Session session;
 
-    public EmailSenderImpl(String to, String from, String host, String fileName) {
-        /*
-            exemplo de uso do emailSender:
-                EmailSenderImpl emailService = new EmailSenderImpl("raul.cfr112@gmail.com",
-                        "trabalhoredeswork@gmail.com",
-                        "smtp.gmail.com",
-                        "C:\\Users\\Raul\\Documents\\FTP-simple-project\\textTest.txt"
-                );
-         */
+    public EmailSenderImpl() {
+        initializeProperties();
+        createSession();
+    }
 
-        Properties properties = System.getProperties();
+    private void initializeProperties() {
+        properties = System.getProperties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtps.auth", "true");
         properties.put("mail.smtp.port", "587");
         properties.put("mail.smtp.starttls.enable", "true");
         properties.setProperty("mail.smtp.host", host);
-        Session session = Session.getDefaultInstance(properties, null);
+    }
 
+    private void createSession() {
+        session = Session.getDefaultInstance(properties, null);
+    }
 
+    public void sendEmail() {
         try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Ping");
-            message.setText("Hello, this is example of sending email  ");
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("Here's the file");
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-            messageBodyPart = new MimeBodyPart();
-            DataSource source = new FileDataSource(fileName);
-            messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(fileName);
-            multipart.addBodyPart(messageBodyPart);
-            message.setContent(multipart);
-
-            Transport transport = session.getTransport();
-            transport.connect(host, 587, from, "telobnvdwczjyrfb ");
-            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
-            transport.close();
+            MimeMessage message = createMessage();
+            addContentToMessage(message);
+            System.out.println("Sending message, wait....");
+            sendMessage(message);
             System.out.println("message sent successfully....");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    private MimeMessage createMessage() throws MessagingException {
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setSubject("Ping");
+        return message;
+    }
+
+    private void addContentToMessage(MimeMessage message) throws MessagingException {
+        message.setText("Hello, this is example of sending email  ");
+        Multipart multipart = new MimeMultipart();
+
+        // Text part
+        BodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText("Here's the file");
+        multipart.addBodyPart(messageBodyPart);
+
+        // File part
+        messageBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(fileName);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(fileName);
+        multipart.addBodyPart(messageBodyPart);
+
+        message.setContent(multipart);
+    }
+
+    private void sendMessage(MimeMessage message) throws MessagingException {
+        Transport transport = session.getTransport();
+        transport.connect(host, 587, from, "telobnvdwczjyrfb"); // You should secure your password
+        transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+        transport.close();
+    }
+
+
 }
