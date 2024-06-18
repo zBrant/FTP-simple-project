@@ -1,8 +1,11 @@
 package io.github.zbrant.core.service;
 
+import io.github.zbrant.core.utils.FormatterUtils;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 
 public class FileService {
@@ -37,4 +40,15 @@ public class FileService {
         System.currentTimeMillis(), path, ftpClient.deleteFile(path));
     System.out.println();
   }
+
+  public void printFiles(String path, FTPClient ftpClient) throws Exception {
+    for (FTPFile ftpFile : ftpClient.listFiles(path)) {
+      if (ftpFile.isDirectory()) {
+        printFiles(path + File.separator + ftpFile.getName(), ftpClient);
+      }else{
+        FormatterUtils.print(ftpFile);
+      }
+    }
+  }
+
 }

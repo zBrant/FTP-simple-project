@@ -4,8 +4,9 @@ import org.apache.commons.net.ProtocolCommandEvent;
 import org.apache.commons.net.ProtocolCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
 
-public class login {
-  public static FTPClient loginFTP(String host, int port, String username, String password) throws Exception {
+public class Login {
+
+  public static FTPClient loginFTP(String host, Integer port, String username, String password) throws Exception {
     FTPClient ftpClient = new FTPClient();
     ftpClient.addProtocolCommandListener(new ProtocolCommandListener() {
       @Override
@@ -21,6 +22,7 @@ public class login {
             System.currentTimeMillis(), protocolCommandEvent.getMessage());
       }
     });
+
     ftpClient.connect(host, port);
     ftpClient.login(username, password);
     return ftpClient;

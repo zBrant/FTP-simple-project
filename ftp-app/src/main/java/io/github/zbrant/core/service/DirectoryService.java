@@ -1,6 +1,10 @@
 package io.github.zbrant.core.service;
 
+import io.github.zbrant.core.utils.FormatterUtils;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+
+import java.io.File;
 
 public class DirectoryService {
 
@@ -17,4 +21,14 @@ public class DirectoryService {
         System.currentTimeMillis(), path, ftpClient.removeDirectory(path));
     System.out.println();
   }
+
+  public void printDirectories(String path, FTPClient ftpClient) throws Exception {
+    for (FTPFile ftpFile : ftpClient.listFiles(path)) {
+      if (ftpFile.isDirectory()) {
+        FormatterUtils.print(ftpFile);
+        printDirectories(path + File.separator + ftpFile.getName(), ftpClient);
+      }
+    }
+  }
+
 }
