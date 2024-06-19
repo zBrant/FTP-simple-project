@@ -22,7 +22,7 @@ public class DirectoryService {
   }
 
   public void printDirectories(String[] input, FTPClient ftpClient) throws Exception {
-    String path = input[0];
+    String path = (input == null) ? "." : input[0];
     for (FTPFile ftpFile : ftpClient.listFiles(path)) {
       if (ftpFile.isDirectory()) FormatterUtils.print(ftpFile);
     }

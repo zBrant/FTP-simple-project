@@ -30,6 +30,7 @@ public class InputHandler {
         case "mkdir"  -> directoryService.createDirectory(params, client);
         case "rmdir"  -> directoryService.deleteDirectory(params, client);
         case "cd"     -> directoryService.changeDirectory(params, client);
+        case "?"     -> FormatterUtils.printHelper();
         case "exit"   -> client.disconnect();
         default -> System.out.println("[ERROR] unknown command: " + command);
       }

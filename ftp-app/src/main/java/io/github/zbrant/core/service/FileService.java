@@ -51,7 +51,7 @@ public class FileService {
   }
 
   public void printFiles(String[] input, FTPClient ftpClient) throws Exception {
-    String path = input[0];
+    String path = (input == null) ? "." : input[0];
     for (FTPFile ftpFile : ftpClient.listFiles(path)) {
       if (ftpFile.isFile()) FormatterUtils.print(ftpFile);
     }
@@ -75,7 +75,7 @@ public class FileService {
       if (newFile) fos.write(fileBytes);
       fos.close();
     }catch (Exception e ){
-      System.out.println("[ERROR] save file failed");
+      System.out.println("[ERROR] file save failed");
     }
   }
 

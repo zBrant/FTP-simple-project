@@ -9,13 +9,12 @@ public class FormatterUtils {
   }
 
   public static void printHelper() {
-    System.out.println("""
-          How to use:\s
-            java -jar ftp-simple-project.jar <ftp server address>
-
-          Example:
-            java -jar ftp-simple-project 192.168.0.2
-          """
+    System.out.print("""
+          get       put      ?\s
+          delete    ls       cd \s
+          mkdir     rmdir    dir\s
+          exit      rename   \s
+         """
     );
   }
 
@@ -27,12 +26,12 @@ public class FormatterUtils {
     }
   }
 
-  public static void printLogFile(String messageOnfail, String messageOnSuccess,
+  public static void printLogFile(String messageOnFail, String messageOnSuccess,
                                   boolean operationNotFail, String directoryName) {
     if (operationNotFail) {
       System.out.printf("File successfully %s: %s \n", messageOnSuccess, directoryName);
     } else {
-      System.out.printf("File %s fail: %s \n", messageOnfail, directoryName);
+      System.out.printf("File %s fail: %s \n", messageOnFail, directoryName);
     }
   }
 }
