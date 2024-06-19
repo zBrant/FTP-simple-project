@@ -11,16 +11,20 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class EmailSenderImpl {
-    private String to = "raul.cfr112@gmail.com";
-    private String from = "trabalhoredeswork@gmail.com";
-    private String host = "smtp.gmail.com";
-    private String fileName = "C:\\Users\\Raul\\Documents\\FTP-simple-project\\textTest.txt";
+    private final String to = "raul.cfr112@gmail.com";
+    private final String from = "trabalhoredeswork@gmail.com";
+    private final String host = "smtp.gmail.com";
+    private final String fileName = "C:\\Users\\Raul\\Documents\\FTP-simple-project\\textTest.txt";
     private Properties properties;
     private Session session;
 
-    public EmailSenderImpl() {
+    private EmailSenderImpl() {
         initializeProperties();
         createSession();
+    }
+
+    public static void execute(){
+        new EmailSenderImpl();
     }
 
     private void initializeProperties() {
@@ -81,6 +85,5 @@ public class EmailSenderImpl {
         transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
         transport.close();
     }
-
 
 }

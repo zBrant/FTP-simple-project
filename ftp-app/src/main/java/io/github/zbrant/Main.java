@@ -10,11 +10,7 @@ public class Main {
     String serverIp = args[0];
     Integer serverPort = 21;
     FTPClientApp.start(serverIp, serverPort);
-    EmailSenderImpl emailSender = new EmailSenderImpl();
-    emailSender.sendEmail();
   }
-
-
 
   public static boolean validInput(String[] args){
     if(args.length != 1){

@@ -4,7 +4,7 @@ import io.github.zbrant.core.service.DirectoryService;
 import io.github.zbrant.core.service.FileService;
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.sql.SQLOutput;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class InputHandler {
@@ -29,11 +29,14 @@ public class InputHandler {
         case "dir"    -> directoryService.printDirectories(params, client);
         case "mkdir"  -> directoryService.createDirectory(params, client);
         case "rmdir"  -> directoryService.deleteDirectory(params, client);
+        case "cd"     -> directoryService.changeDirectory(params, client);
         case "exit"   -> client.disconnect();
         default -> System.out.println("[ERROR] unknown command: " + command);
       }
-    }catch (Exception e){
+    }catch (FileNotFoundException e){
       System.out.println("[ERROR] cause: " + e.getMessage());
+    }catch (Exception e){
+      System.out.println("[ERROR] cause: Invalid command. Please use the correct syntax");
     }
   }
 

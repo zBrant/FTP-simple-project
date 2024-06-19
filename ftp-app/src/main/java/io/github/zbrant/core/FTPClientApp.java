@@ -1,6 +1,7 @@
 package io.github.zbrant.core;
 
 import io.github.zbrant.core.authentication.Login;
+import io.github.zbrant.core.integration.email.EmailSenderImpl;
 import io.github.zbrant.core.utils.InputHandler;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -25,6 +26,8 @@ public class FTPClientApp {
       System.out.print("ftp-client > ");
       String line = scanner.nextLine().trim();
       inputHandler.perform(line.split(" "), client);
+
+      //if (!client.isConnected()) EmailSenderImpl.execute();
     }
   }
 
