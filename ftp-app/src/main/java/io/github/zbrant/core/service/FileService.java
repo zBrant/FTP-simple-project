@@ -14,6 +14,7 @@ public class FileService {
   public void uploadFile(String[] input, FTPClient ftpClient) throws Exception {
     String localPath = input[0];
     String remotePath = input[1];
+    if (remotePath.length() == 1 && remotePath.charAt(0) == '.') remotePath += '/';
 
     ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
     File localFile = new File(localPath);

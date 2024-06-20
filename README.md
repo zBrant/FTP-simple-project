@@ -14,13 +14,14 @@ This is a basic FTP client written in java. It provides a command-line interface
 - **rmdir**: Deletes a directory on the FTP server.
 - **cd**: Changes the current directory on the FTP server.
 - **exit**: Exits the FTP client.
+- **?**: List all available commands.
 
 ### Usage
 
 1. Compile the program.
 2. Run the program and enter the FTP server address to connect.
 3. Enter the user and password.
-4. Use the provided commands above to interact with the FTP server.
+4. Use the provided commands below to interact with the FTP server.
 
 ### Example Usage
 
@@ -36,6 +37,7 @@ This is a basic FTP client written in java. It provides a command-line interface
 | rmdir   | ```ftp-client > rmdir <directory name>```             |
 | cd      | ```ftp-client > cd <directory name>```                |
 | exit    | ```ftp-client > exit```                               |
+| ?       | ```ftp-client > ?```                                  |
 
 ### Contributing
 This project is open-source and welcomes contributions. If you have any suggestions or bug reports, please open an issue on GitHub.

@@ -1,5 +1,6 @@
 package io.github.zbrant.core.utils;
 
+import io.github.zbrant.core.authentication.Logout;
 import io.github.zbrant.core.service.DirectoryService;
 import io.github.zbrant.core.service.FileService;
 import org.apache.commons.net.ftp.FTPClient;
@@ -31,7 +32,7 @@ public class InputHandler {
         case "rmdir"  -> directoryService.deleteDirectory(params, client);
         case "cd"     -> directoryService.changeDirectory(params, client);
         case "?"     -> FormatterUtils.printHelper();
-        case "exit"   -> client.disconnect();
+        case "exit"   -> Logout.execute(client);
         default -> System.out.println("[ERROR] unknown command: " + command);
       }
     }catch (FileNotFoundException e){

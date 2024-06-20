@@ -18,7 +18,6 @@ public class FTPClientApp {
       System.out.print("ftp-client > ");
       String line = scanner.nextLine().trim();
       inputHandler.perform(line.split(" "), client);
-      //if (!client.isConnected()) EmailSenderImpl.execute();
     }
   }
 

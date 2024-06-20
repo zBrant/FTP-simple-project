@@ -1,30 +1,27 @@
 package io.github.zbrant.core.integration.email;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 public class EmailSenderImpl {
     private final String to = "raul.cfr112@gmail.com";
     private final String from = "trabalhoredeswork@gmail.com";
     private final String host = "smtp.gmail.com";
-    private final String fileName = "C:\\Users\\Raul\\Documents\\FTP-simple-project\\textTest.txt";
+    private final String contentOnFTPServer;
     private Properties properties;
     private Session session;
 
-    private EmailSenderImpl() {
+    private EmailSenderImpl(String content) {
+        this.contentOnFTPServer = content;
         initializeProperties();
         createSession();
+        sendEmail();
     }
 
-    public static void execute(){
-        new EmailSenderImpl();
+    public static void execute(String content){
+        new EmailSenderImpl(content);
     }
 
     private void initializeProperties() {
@@ -40,13 +37,15 @@ public class EmailSenderImpl {
         session = Session.getDefaultInstance(properties, null);
     }
 
-    public void sendEmail() {
+    private void sendEmail() {
         try {
             MimeMessage message = createMessage();
-            addContentToMessage(message);
-            System.out.println("Sending message, wait....");
-            sendMessage(message);
-            System.out.println("message sent successfully....");
+            System.out.println("Sending email, wait....");
+            Transport transport = session.getTransport();
+            transport.connect(host, 587, from, "telobnvdwczjyrfb"); // You should secure your password
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            transport.close();
+            System.out.println("Email sent successfully....");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -56,34 +55,8 @@ public class EmailSenderImpl {
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(from));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        message.setSubject("Ping");
+        message.setSubject("FTP server files and directories");
+        message.setText(contentOnFTPServer);
         return message;
     }
-
-    private void addContentToMessage(MimeMessage message) throws MessagingException {
-        message.setText("Hello, this is example of sending email  ");
-        Multipart multipart = new MimeMultipart();
-
-        // Text part
-        BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText("Here's the file");
-        multipart.addBodyPart(messageBodyPart);
-
-        // File part
-        messageBodyPart = new MimeBodyPart();
-        DataSource source = new FileDataSource(fileName);
-        messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(fileName);
-        multipart.addBodyPart(messageBodyPart);
-
-        message.setContent(multipart);
-    }
-
-    private void sendMessage(MimeMessage message) throws MessagingException {
-        Transport transport = session.getTransport();
-        transport.connect(host, 587, from, "telobnvdwczjyrfb"); // You should secure your password
-        transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
-        transport.close();
-    }
-
 }
